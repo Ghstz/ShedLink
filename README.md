@@ -10,29 +10,37 @@ Shed Security is a two-part system: a server-side C# mod (`ShedLink`) that safel
 
 ### 🛡️ Player & Access Management
 * **Live Player Tracking & Radar:** Monitor connected players, their inventories, and real-time relative coordinates.
+
 ![Player Radar](ScreenShots/Radar.jpg)
 
 * **Access Control:** Add or remove players from the server Whitelist and Banlist with a single click, automatically syncing with the server.
+
 ![Access Control](ScreenShots/Access.jpg)
 
 * **Anti-Cheat Validation:** Built-in checks for client-side modifications and irregular movement patterns.
+
 ![Anti-Cheat Module](ScreenShots/Anti-Cheat.jpg)
 
 ### 🌍 World & Entity Control
 * **Time & Weather Manipulation:** Instantly set the time of day or start/stop Temporal Storms programmatically.
+
 ![World Control](ScreenShots/World.jpg)
 
 * **Entity Management & Quick Spawner:** View live entity counts (items, hostiles, passives). Give items directly to players, or use the "Nuke Hostiles" feature to instantly despawn all aggressive mobs (Drifters, Wolves, Bears, Locusts, Bells) to clear up server lag or protect players.
+
 ![Item Spawner](ScreenShots/Spawner.jpg)
 
 ### 💻 System Diagnostics & Backups
 * **Server Health & Configs:** Monitor active chunks, loaded entities, server tick rates, and edit server configurations on the fly.
+
 ![Server Diagnostics](ScreenShots/Diagnostics.jpg)
 
 * **One-Click Backups:** Trigger safe, off-thread world saves and `.zip` backups directly from the desktop dashboard.
+
 ![Backups](ScreenShots/Backups.jpg)
 
 * **Mod Management:** View, upload, and disable server mods without needing FTP access.
+
 ![Mod Management](ScreenShots/Mods.jpg)
 
 ---
@@ -55,7 +63,9 @@ Shed Security is a two-part system: a server-side C# mod (`ShedLink`) that safel
 1. Download the latest `Shed Security AP.exe` from the [Releases](link-to-releases) page.
 2. Run the application (no installation required).
 3. Enter your server's IP address and the ShedLink connection port.
+
 ![Connection Screen](ScreenShots/Connection.jpg)
+
 4. Authenticate and begin managing your server!
 
 ---
