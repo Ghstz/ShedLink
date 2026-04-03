@@ -1,10 +1,10 @@
-# Shed Security & ShedLink for Vintage Story
+# ShedLink for Vintage Story
 
-A powerful, real-time server administration dashboard and anti-cheat system for Vintage Story (v1.19 - v1.22+). 
+A powerful, real-time server administration dashboard for Vintage Story (v1.19 - v1.22+). 
 
-Shed Security is a two-part system: a server-side C# mod (`ShedLink`) that safely hooks into the Vintage Story API, and a lightweight, standalone Windows desktop application (`Shed Security AP`) that gives server owners total control over their world without needing to memorize console commands.
+ShedLink a server-side C# mod (`ShedLink`) that safely hooks into the Vintage Story API, and a lightweight, standalone Windows desktop application (`ShedLink Dashboard`) that gives server owners total control over their world without needing to memorize console commands.
 
-![Shed Security Dashboard](ScreenShots/Dashboard.jpg)
+![ShedLink Dashboard](ScreenShots/Dashboard.jpg)
 
 ## ✨ Key Features
 
@@ -48,7 +48,7 @@ Shed Security is a two-part system: a server-side C# mod (`ShedLink`) that safel
 ## 🏗️ Architecture
 
 1. **ShedLink (Server Mod):** A highly optimized Vintage Story `.dll` mod. It opens a secure network protocol to listen for dashboard connections. Built with cached reflection to maintain zero-overhead backwards compatibility across Vintage Story versions 1.19 through 1.22+.
-2. **Shed Security AP (Desktop Dashboard):** A .NET 10 Windows Presentation Foundation (WPF) application compiled as a single-file executable for easy distribution. 
+2. **ShedLink Dashboard (Desktop Dashboard):** A .NET 10 Windows Presentation Foundation (WPF) application compiled as a single-file executable for easy distribution. 
 
 ---
 
@@ -60,7 +60,7 @@ Shed Security is a two-part system: a server-side C# mod (`ShedLink`) that safel
 3. Restart your server. ShedLink will automatically initialize and begin listening for dashboard connections on the default port.
 
 ### For Administrators
-1. Download the latest `Shed Security AP.exe` from the [Releases](link-to-releases) page.
+1. Download the latest `ShedLink.exe` from the [Releases](link-to-releases) page.
 2. Run the application (no installation required).
 3. Enter your server's IP address and the ShedLink connection port.
 
