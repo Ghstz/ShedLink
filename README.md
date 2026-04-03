@@ -55,12 +55,12 @@ ShedLink a server-side C# mod (`ShedLink`) that safely hooks into the Vintage St
 ## 🚀 Installation & Setup
 
 ### For Server Owners
-1. Download the latest `ShedLink.zip` from the [Releases](link-to-releases) page.
+1. Download the latest `ShedLink.zip` from the [Releases](https://github.com/Ghstz/ShedLink/releases/tag/ShedLink) page.
 2. Drop the `.zip` into your Vintage Story server's `Mods` folder.
 3. Restart your server. ShedLink will automatically initialize and begin listening for dashboard connections on the default port.
 
 ### For Administrators
-1. Download the latest `ShedLink.exe` from the [Releases](link-to-releases) page.
+1. Download the latest `ShedLink.exe` from the [Releases](https://github.com/Ghstz/ShedLink/releases/tag/ShedLink) page.
 2. Run the application (no installation required).
 3. Enter your server's IP address and the ShedLink connection port.
 
