@@ -1,0 +1,219 @@
+<UserControl x:Class="Shed_Security_AP.Views.AccessControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="550" d:DesignWidth="800">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- ════════════════════ Header ════════════════════ -->
+        <Grid Grid.Row="0" Margin="0,0,0,14">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="&#xE72E;"
+                           FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                           FontSize="18"
+                           Foreground="{StaticResource AccentBrush}"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0" />
+                <TextBlock Text="Access Control"
+                           Style="{StaticResource HeaderStyle}"
+                           FontSize="20" />
+            </StackPanel>
+
+            <Button Grid.Column="1"
+                    Command="{Binding RefreshCommand}"
+                    Style="{StaticResource AccentButton}"
+                    Content="Refresh"
+                    Padding="16,6"
+                    FontSize="12" />
+        </Grid>
+
+        <!-- ════════════════════ Two-Column Layout ════════════════════ -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- ──── WHITELIST Column ──── -->
+            <Border Grid.Column="0"
+                    Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderSubtleBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="14">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="10" Opacity="0.2" ShadowDepth="2" Direction="270" />
+                </Border.Effect>
+                <DockPanel>
+                    <!-- Section Title -->
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="WHITELIST"
+                               Foreground="{StaticResource AccentBrush}"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,10" />
+
+                    <!-- Add Input -->
+                    <Grid DockPanel.Dock="Top" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding NewWhitelistName, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource ModernTextBox}"
+                                 FontSize="12" />
+                        <Button Grid.Column="1"
+                                Command="{Binding AddWhitelistCommand}"
+                                Style="{StaticResource AccentButton}"
+                                Content="Add"
+                                Padding="14,6"
+                                Margin="8,0,0,0"
+                                FontSize="12" />
+                    </Grid>
+
+                    <!-- Player List -->
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  Style="{StaticResource FadeScrollViewer}">
+                        <ItemsControl ItemsSource="{Binding Whitelist}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{StaticResource BackgroundDarkBrush}"
+                                            CornerRadius="4"
+                                            Padding="10,6"
+                                            Margin="0,0,0,4">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0"
+                                                       Text="{Binding}"
+                                                       Foreground="{StaticResource TextPrimaryBrush}"
+                                                       FontSize="12"
+                                                       VerticalAlignment="Center" />
+                                            <Button Grid.Column="1"
+                                                    Command="{Binding DataContext.RemoveWhitelistCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Cursor="Hand"
+                                                    ToolTip="Remove"
+                                                    Padding="4,2">
+                                                <TextBlock Text="✕"
+                                                           Foreground="#E06C75"
+                                                           FontSize="11" />
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+
+            <!-- ──── BANS Column ──── -->
+            <Border Grid.Column="2"
+                    Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderSubtleBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="14">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="10" Opacity="0.2" ShadowDepth="2" Direction="270" />
+                </Border.Effect>
+                <DockPanel>
+                    <!-- Section Title -->
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="BANS"
+                               Foreground="#E06C75"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,10" />
+
+                    <!-- Add Input -->
+                    <Grid DockPanel.Dock="Top" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding NewBanName, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource ModernTextBox}"
+                                 FontSize="12" />
+                        <Button Grid.Column="1"
+                                Command="{Binding AddBanCommand}"
+                                Style="{StaticResource AccentButton}"
+                                Content="Ban"
+                                Padding="14,6"
+                                Margin="8,0,0,0"
+                                FontSize="12" />
+                    </Grid>
+
+                    <!-- Player List -->
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  Style="{StaticResource FadeScrollViewer}">
+                        <ItemsControl ItemsSource="{Binding Banlist}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{StaticResource BackgroundDarkBrush}"
+                                            CornerRadius="4"
+                                            Padding="10,6"
+                                            Margin="0,0,0,4">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0"
+                                                       Text="{Binding}"
+                                                       Foreground="{StaticResource TextPrimaryBrush}"
+                                                       FontSize="12"
+                                                       VerticalAlignment="Center" />
+                                            <Button Grid.Column="1"
+                                                    Command="{Binding DataContext.RemoveBanCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Cursor="Hand"
+                                                    ToolTip="Unban"
+                                                    Padding="4,2">
+                                                <TextBlock Text="✕"
+                                                           Foreground="#E06C75"
+                                                           FontSize="11" />
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <!-- ════════════════════ Status Bar ════════════════════ -->
+        <TextBlock Grid.Row="2"
+                   Text="{Binding StatusMessage}"
+                   Foreground="{StaticResource TextSecondaryBrush}"
+                   FontSize="11"
+                   Margin="0,8,0,0" />
+    </Grid>
+</UserControl>

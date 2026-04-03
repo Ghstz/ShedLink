@@ -1,0 +1,223 @@
+<UserControl x:Class="Shed_Security_AP.Views.DiagnosticsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             mc:Ignorable="d"
+             d:DesignHeight="550" d:DesignWidth="800">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- ════════════════════ Header + Refresh ════════════════════ -->
+        <Grid Grid.Row="0" Margin="0,0,0,12">
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                <TextBlock Text="&#xE9D9;"
+                           FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                           FontSize="18"
+                           Foreground="{StaticResource AccentBrush}"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0" />
+                <TextBlock Text="Diagnostics"
+                           Style="{StaticResource HeaderStyle}"
+                           FontSize="20" />
+            </StackPanel>
+            <Button HorizontalAlignment="Right"
+                    Command="{Binding RefreshCommand}"
+                    Style="{StaticResource AccentButton}"
+                    Height="32"
+                    Padding="14,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE72C;"
+                               FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                               FontSize="13"
+                               VerticalAlignment="Center"
+                               Margin="0,0,6,0" />
+                    <TextBlock Text="Refresh"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <!-- ════════════════════ Metric Cards ════════════════════ -->
+        <UniformGrid Grid.Row="1" Rows="1" Columns="3"
+                     Margin="0,0,0,12">
+
+            <!-- Loaded Entities Card -->
+            <Border Background="{StaticResource CardBackgroundBrush}"
+                    CornerRadius="8"
+                    Padding="18"
+                    Margin="0,0,8,0">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="10" Opacity="0.2" ShadowDepth="2" Direction="270" />
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="LOADED ENTITIES"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,6" />
+                    <TextBlock Text="{Binding LoadedChunks}"
+                               Foreground="{StaticResource TextPrimaryBrush}"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               FontFamily="Cascadia Mono, Consolas, Courier New" />
+                </StackPanel>
+            </Border>
+
+            <!-- Dropped Items Card -->
+            <Border Background="{StaticResource CardBackgroundBrush}"
+                    CornerRadius="8"
+                    Padding="18"
+                    Margin="4,0,4,0">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="10" Opacity="0.2" ShadowDepth="2" Direction="270" />
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="DROPPED ITEMS"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,6" />
+                    <TextBlock Text="{Binding DroppedItems}"
+                               Foreground="#FFF59E0B"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               FontFamily="Cascadia Mono, Consolas, Courier New" />
+                </StackPanel>
+            </Border>
+
+            <!-- Hostile Mobs Card -->
+            <Border Background="{StaticResource CardBackgroundBrush}"
+                    CornerRadius="8"
+                    Padding="18"
+                    Margin="8,0,0,0">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="10" Opacity="0.2" ShadowDepth="2" Direction="270" />
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="HOSTILE MOBS"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,6" />
+                    <TextBlock Text="{Binding HostileMobs}"
+                               Foreground="#FFEF4444"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               FontFamily="Cascadia Mono, Consolas, Courier New" />
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <!-- ════════════════════ Nuke Buttons ════════════════════ -->
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,12">
+            <StackPanel.Resources>
+                <Style x:Key="NukeButton" TargetType="Button">
+                    <Setter Property="Height" Value="38" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="FontSize" Value="13" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="Cursor" Value="Hand" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="Bd"
+                                        Background="#FFEF4444"
+                                        CornerRadius="6"
+                                        Padding="16,0"
+                                        SnapsToDevicePixels="True">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Bd" Property="Background" Value="#FFDC2626" />
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="Bd" Property="Background" Value="#FFB91C1C" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </StackPanel.Resources>
+
+            <Button Command="{Binding NukeItemsCommand}"
+                    Style="{StaticResource NukeButton}"
+                    Margin="0,0,8,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE74D;"
+                               FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                               FontSize="14"
+                               VerticalAlignment="Center"
+                               Margin="0,0,6,0" />
+                    <TextBlock Text="Nuke Items"
+                               FontSize="13"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+
+            <Button Command="{Binding NukeHostilesCommand}"
+                    Style="{StaticResource NukeButton}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE7BA;"
+                               FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                               FontSize="14"
+                               VerticalAlignment="Center"
+                               Margin="0,0,6,0" />
+                    <TextBlock Text="Nuke Hostiles"
+                               FontSize="13"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <!-- ════════════════════ Tick Profile Pie Chart ════════════════════ -->
+        <Border Grid.Row="3"
+                Background="{StaticResource CardBackgroundBrush}"
+                CornerRadius="8"
+                Padding="16">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="10" Opacity="0.2" ShadowDepth="2" Direction="270" />
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0"
+                            Orientation="Horizontal"
+                            Margin="0,0,0,8">
+                    <TextBlock Text="&#xE9F9;"
+                               FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                               FontSize="14"
+                               VerticalAlignment="Center"
+                               Margin="0,0,6,0" />
+                    <TextBlock Text="Entity Distribution"
+                               Style="{StaticResource HeaderStyle}"
+                               FontSize="16" />
+                </StackPanel>
+
+                <lvc:PieChart Grid.Row="1"
+                              Series="{Binding TickProfileSeries}"
+                              LegendPosition="Right"
+                              LegendTextPaint="{Binding LegendTextPaint}"
+                              MinHeight="180" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

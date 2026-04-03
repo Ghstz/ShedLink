@@ -1,0 +1,108 @@
+<UserControl x:Class="Shed_Security_AP.Views.RadarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- ════════════════════ Header ════════════════════ -->
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,14">
+            <TextBlock Text="&#xE909;"
+                       FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                       FontSize="18"
+                       Foreground="{StaticResource AccentBrush}"
+                       VerticalAlignment="Center"
+                       Margin="0,0,10,0" />
+            <TextBlock Text="Player Radar"
+                       Style="{StaticResource HeaderStyle}"
+                       FontSize="20" />
+            <TextBlock Text="{Binding PlayerCount, StringFormat='  —  {0} online'}"
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       FontSize="13"
+                       VerticalAlignment="Center"
+                       Margin="8,0,0,0" />
+        </StackPanel>
+
+        <!-- ════════════════════ Radar Canvas ════════════════════ -->
+        <Border Grid.Row="1"
+                Background="#1A1A2E"
+                BorderBrush="{StaticResource BorderSubtleBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="12" Opacity="0.3" ShadowDepth="3" Direction="270" />
+            </Border.Effect>
+            <Grid>
+                <!-- Grid lines -->
+                <Canvas Width="500" Height="500" ClipToBounds="True">
+                    <!-- Vertical grid lines -->
+                    <Line X1="100" Y1="0" X2="100" Y2="500" Stroke="#1C2A3A" StrokeThickness="0.5" />
+                    <Line X1="200" Y1="0" X2="200" Y2="500" Stroke="#1C2A3A" StrokeThickness="0.5" />
+                    <Line X1="250" Y1="0" X2="250" Y2="500" Stroke="#2A3A4A" StrokeThickness="1" />
+                    <Line X1="300" Y1="0" X2="300" Y2="500" Stroke="#1C2A3A" StrokeThickness="0.5" />
+                    <Line X1="400" Y1="0" X2="400" Y2="500" Stroke="#1C2A3A" StrokeThickness="0.5" />
+                    <!-- Horizontal grid lines -->
+                    <Line X1="0" Y1="100" X2="500" Y2="100" Stroke="#1C2A3A" StrokeThickness="0.5" />
+                    <Line X1="0" Y1="200" X2="500" Y2="200" Stroke="#1C2A3A" StrokeThickness="0.5" />
+                    <Line X1="0" Y1="250" X2="500" Y2="250" Stroke="#2A3A4A" StrokeThickness="1" />
+                    <Line X1="0" Y1="300" X2="500" Y2="300" Stroke="#1C2A3A" StrokeThickness="0.5" />
+                    <Line X1="0" Y1="400" X2="500" Y2="400" Stroke="#1C2A3A" StrokeThickness="0.5" />
+                </Canvas>
+
+                <!-- Player blips -->
+                <ItemsControl ItemsSource="{Binding MappedPlayers}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas Width="500" Height="500" ClipToBounds="True" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Canvas.Left" Value="{Binding CanvasX}" />
+                            <Setter Property="Canvas.Top" Value="{Binding CanvasY}" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="-20,-22,0,0">
+                                <TextBlock Text="{Binding Name}"
+                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                           FontSize="10"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,2" />
+                                <Ellipse Width="10" Height="10"
+                                         Fill="{StaticResource AccentBrush}"
+                                         HorizontalAlignment="Center">
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect Color="{StaticResource AccentColor}"
+                                                          BlurRadius="8" Opacity="0.6"
+                                                          ShadowDepth="0" />
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Border>
+
+        <!-- ════════════════════ Footer ════════════════════ -->
+        <TextBlock Grid.Row="2"
+                   Text="Live positions update with telemetry.  Map: 10 000 × 10 000 blocks."
+                   Foreground="{StaticResource TextSecondaryBrush}"
+                   FontSize="11"
+                   Margin="0,8,0,0" />
+    </Grid>
+</UserControl>

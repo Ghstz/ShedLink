@@ -1,0 +1,11 @@
+{
+    "type": "code",
+    "modid": "shedlink",
+    "name": "Shed Link",
+    "authors": ["ShedDev"],
+    "description": "WebSocket bridge for the Shed Link remote admin dashboard. Listens for authenticated connections and processes JSON commands to manage the Vintage Story server.",
+    "version": "0.1.0",
+    "side": "server",
+    "requiredOnClient": false,
+    "requiredOnServer": false
+}

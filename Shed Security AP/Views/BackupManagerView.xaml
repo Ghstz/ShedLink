@@ -1,0 +1,191 @@
+<UserControl x:Class="Shed_Security_AP.Views.BackupManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header Row -->
+        <DockPanel Grid.Row="0" Margin="0,0,0,15">
+            <!-- Refresh Button -->
+            <Button DockPanel.Dock="Right"
+                    Style="{StaticResource AccentButton}"
+                    Content="Refresh"
+                    Command="{Binding RefreshBackupsCommand}"
+                    Height="34"
+                    FontSize="12"
+                    Padding="16,0" />
+
+            <!-- Create Backup Button -->
+            <Button DockPanel.Dock="Right"
+                    Style="{StaticResource AccentButton}"
+                    Content="Create New Backup"
+                    Command="{Binding CreateBackupCommand}"
+                    Height="34"
+                    FontSize="12"
+                    Padding="16,0"
+                    Margin="0,0,10,0" />
+
+            <!-- Title -->
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="&#xE753;"
+                           FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                           FontSize="20"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0" />
+                <TextBlock Text="Backup Manager"
+                           Style="{StaticResource HeaderStyle}"
+                           FontSize="20"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Backup List -->
+        <Border Grid.Row="1"
+                Background="{StaticResource CardBackgroundBrush}"
+                BorderBrush="{StaticResource BorderSubtleBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                Padding="15">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="10" Opacity="0.2"
+                                  ShadowDepth="2" Direction="270" />
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- Column Headers -->
+                <Grid Grid.Row="0" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="160" />
+                        <ColumnDefinition Width="90" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="BACKUP NAME"
+                               Style="{StaticResource LabelStyle}" />
+                    <TextBlock Grid.Column="1"
+                               Text="SIZE"
+                               Style="{StaticResource LabelStyle}"
+                               TextAlignment="Right" />
+                    <TextBlock Grid.Column="2"
+                               Text="DATE"
+                               Style="{StaticResource LabelStyle}"
+                               TextAlignment="Right" />
+                    <TextBlock Grid.Column="3"
+                               Text="ACTIONS"
+                               Style="{StaticResource LabelStyle}"
+                               TextAlignment="Center" />
+                </Grid>
+
+                <ScrollViewer Grid.Row="1"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl ItemsSource="{Binding Backups}"
+                                  x:Name="BackupListControl">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{StaticResource InputBackgroundBrush}"
+                                        CornerRadius="6"
+                                        Padding="12,10"
+                                        Margin="0,0,0,4"
+                                        Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="160" />
+                                            <ColumnDefinition Width="90" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Backup Name -->
+                                        <TextBlock Grid.Column="0"
+                                                   Text="{Binding Name}"
+                                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                                   FontSize="13"
+                                                   VerticalAlignment="Center" />
+
+                                        <!-- Size -->
+                                        <TextBlock Grid.Column="1"
+                                                   Text="{Binding Size}"
+                                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                                   FontSize="11"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Right" />
+
+                                        <!-- Date -->
+                                        <TextBlock Grid.Column="2"
+                                                   Text="{Binding Date}"
+                                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                                   FontSize="11"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Right" />
+
+                                        <!-- Download Button -->
+                                        <Button Grid.Column="3"
+                                                Content="&#xE896;"
+                                                FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                                FontSize="14"
+                                                Command="{Binding Tag.DownloadBackupCommand, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource AccentButton}"
+                                                Height="26"
+                                                Padding="8,0"
+                                                ToolTip="Download backup"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <!-- Status Row -->
+        <DockPanel Grid.Row="2" Margin="0,10,0,0">
+            <StackPanel DockPanel.Dock="Right"
+                        Orientation="Horizontal"
+                        Visibility="{Binding IsCreating, Converter={StaticResource BoolToVisConverter}}">
+                <TextBlock Text="●"
+                           Foreground="{StaticResource AccentBrush}"
+                           FontSize="10"
+                           VerticalAlignment="Center"
+                           Margin="0,0,6,0" />
+                <TextBlock Text="Creating backup..."
+                           Foreground="{StaticResource TextSecondaryBrush}"
+                           FontSize="12"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+
+            <TextBlock Text="{Binding StatusMessage}"
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       FontSize="12"
+                       VerticalAlignment="Center" />
+        </DockPanel>
+
+        <!-- Download Progress Row -->
+        <ProgressBar Grid.Row="3"
+                     Style="{StaticResource ModernProgressBar}"
+                     Value="{Binding DownloadProgress}"
+                     Maximum="100"
+                     Margin="0,6,0,0"
+                     Visibility="{Binding IsDownloading, Converter={StaticResource BoolToVisConverter}}" />
+    </Grid>
+</UserControl>

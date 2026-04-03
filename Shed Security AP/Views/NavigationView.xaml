@@ -1,0 +1,278 @@
+<UserControl x:Class="Shed_Security_AP.Views.NavigationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- ════════════════════ Header ════════════════════ -->
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,14">
+            <TextBlock Text="&#xE707;"
+                       FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                       FontSize="18"
+                       Foreground="{StaticResource AccentBrush}"
+                       VerticalAlignment="Center"
+                       Margin="0,0,10,0" />
+            <TextBlock Text="Navigation &amp; Teleport"
+                       Style="{StaticResource HeaderStyle}"
+                       FontSize="20" />
+        </StackPanel>
+
+        <!-- ════════════════════ Two-Column Layout ════════════════════ -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="280" />
+            </Grid.ColumnDefinitions>
+
+            <!-- ──── Left: Saved Waypoints ──── -->
+            <Border Grid.Column="0"
+                    Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderSubtleBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="14">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="10" Opacity="0.2" ShadowDepth="2" Direction="270" />
+                </Border.Effect>
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="SAVED WAYPOINTS"
+                               Foreground="{StaticResource AccentBrush}"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,10" />
+
+                    <!-- Add waypoint form -->
+                    <Grid DockPanel.Dock="Top" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding NewWaypointName, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource ModernTextBox}"
+                                 FontSize="12"
+                                 Margin="0,0,6,0"
+                                 ToolTip="Waypoint name" />
+                        <TextBox Grid.Column="1"
+                                 Text="{Binding NewWaypointX, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource ModernTextBox}"
+                                 FontSize="11"
+                                 FontFamily="Cascadia Mono, Consolas, Courier New"
+                                 TextAlignment="Center"
+                                 Margin="0,0,4,0"
+                                 ToolTip="X" />
+                        <TextBox Grid.Column="2"
+                                 Text="{Binding NewWaypointY, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource ModernTextBox}"
+                                 FontSize="11"
+                                 FontFamily="Cascadia Mono, Consolas, Courier New"
+                                 TextAlignment="Center"
+                                 Margin="0,0,4,0"
+                                 ToolTip="Y" />
+                        <TextBox Grid.Column="3"
+                                 Text="{Binding NewWaypointZ, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource ModernTextBox}"
+                                 FontSize="11"
+                                 FontFamily="Cascadia Mono, Consolas, Courier New"
+                                 TextAlignment="Center"
+                                 Margin="0,0,6,0"
+                                 ToolTip="Z" />
+                        <Button Grid.Column="4"
+                                Command="{Binding AddWaypointCommand}"
+                                Style="{StaticResource AccentButton}"
+                                Content="Save"
+                                Padding="14,6"
+                                FontSize="12" />
+                    </Grid>
+
+                    <!-- Waypoint List -->
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  Style="{StaticResource FadeScrollViewer}">
+                        <ItemsControl ItemsSource="{Binding SavedWaypoints}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{StaticResource BackgroundDarkBrush}"
+                                            CornerRadius="4"
+                                            Padding="10,8"
+                                            Margin="0,0,0,4">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Column="0"
+                                                        VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Name}"
+                                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                                           FontSize="12"
+                                                           FontWeight="SemiBold" />
+                                                <TextBlock Foreground="{StaticResource TextSecondaryBrush}"
+                                                           FontSize="10"
+                                                           FontFamily="Cascadia Mono, Consolas, Courier New"
+                                                           Margin="0,2,0,0">
+                                                    <Run Text="{Binding X, StringFormat='{}{0:F0}', Mode=OneWay}" />
+                                                    <Run Text="," />
+                                                    <Run Text="{Binding Y, StringFormat='{}{0:F0}', Mode=OneWay}" />
+                                                    <Run Text="," />
+                                                    <Run Text="{Binding Z, StringFormat='{}{0:F0}', Mode=OneWay}" />
+                                                </TextBlock>
+                                            </StackPanel>
+
+                                            <!-- Remove button -->
+                                            <Button Grid.Column="1"
+                                                    Command="{Binding DataContext.RemoveWaypointCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Cursor="Hand"
+                                                    ToolTip="Remove"
+                                                    Padding="4,2">
+                                                <TextBlock Text="✕"
+                                                           Foreground="#E06C75"
+                                                           FontSize="11" />
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+
+            <!-- ──── Right: Teleport Console ──── -->
+            <Border Grid.Column="2"
+                    Background="{StaticResource CardBackgroundBrush}"
+                    BorderBrush="{StaticResource BorderSubtleBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="14">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" BlurRadius="10" Opacity="0.2" ShadowDepth="2" Direction="270" />
+                </Border.Effect>
+                <StackPanel>
+                    <TextBlock Text="TELEPORT CONSOLE"
+                               Foreground="{StaticResource AccentBrush}"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,14" />
+
+                    <!-- Select Player -->
+                    <TextBlock Text="SELECT PLAYER"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,6" />
+                    <ComboBox ItemsSource="{Binding OnlinePlayers}"
+                              SelectedItem="{Binding SelectedPlayer}"
+                              Style="{StaticResource ModernComboBox}"
+                              Margin="0,0,0,16">
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem" BasedOn="{StaticResource ModernComboBoxItem}" />
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+
+                    <!-- Separator -->
+                    <Separator Background="{StaticResource BorderSubtleBrush}"
+                               Margin="0,0,0,14" />
+
+                    <!-- Section A: Beam to Waypoint -->
+                    <TextBlock Text="BEAM TO WAYPOINT"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,6" />
+                    <ComboBox ItemsSource="{Binding SavedWaypoints}"
+                              SelectedItem="{Binding SelectedWaypoint}"
+                              Style="{StaticResource ModernComboBox}"
+                              Margin="0,0,0,8">
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem" BasedOn="{StaticResource ModernComboBoxItem}" />
+                        </ComboBox.ItemContainerStyle>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Command="{Binding TeleportToWaypointCommand}"
+                            Style="{StaticResource AccentButton}"
+                            Height="34"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,0,0,20">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE707;"
+                                       FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                       FontSize="12"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,6,0" />
+                            <TextBlock Text="Teleport to Waypoint"
+                                       FontSize="12"
+                                       FontWeight="SemiBold" />
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Separator -->
+                    <Separator Background="{StaticResource BorderSubtleBrush}"
+                               Margin="0,0,0,14" />
+
+                    <!-- Section B: Beam to Player -->
+                    <TextBlock Text="BEAM TO PLAYER"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,6" />
+                    <ComboBox ItemsSource="{Binding OnlinePlayers}"
+                              SelectedItem="{Binding DestinationPlayer}"
+                              Style="{StaticResource ModernComboBox}"
+                              Margin="0,0,0,8">
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem" BasedOn="{StaticResource ModernComboBoxItem}" />
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+                    <Button Command="{Binding TeleportToPlayerCommand}"
+                            Style="{StaticResource AccentButton}"
+                            Height="34"
+                            HorizontalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="&#xE716;"
+                                       FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                       FontSize="12"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,6,0" />
+                            <TextBlock Text="Teleport to Player"
+                                       FontSize="12"
+                                       FontWeight="SemiBold" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- ════════════════════ Status Bar ════════════════════ -->
+        <TextBlock Grid.Row="2"
+                   Text="{Binding StatusMessage}"
+                   Foreground="{StaticResource TextSecondaryBrush}"
+                   FontSize="11"
+                   Margin="0,8,0,0" />
+    </Grid>
+</UserControl>
