@@ -26,7 +26,7 @@ ShedLink a server-side C# mod (`ShedLink`) that safely hooks into the Vintage St
 
 ![World Control](ScreenShots/World.jpg)
 
-* **Entity Management & Quick Spawner:** View live entity counts (items, hostiles, passives). Give items directly to players, or use the "Nuke Hostiles" feature to instantly despawn all aggressive mobs (Drifters, Wolves, Bears, Locusts, Bells) to clear up server lag or protect players.
+* **Quick Spawner:** Give items directly to players.
 
 ![Item Spawner](ScreenShots/Spawner.jpg)
 
